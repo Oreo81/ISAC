@@ -30,6 +30,13 @@ class help(commands.Cog):
             embed.add_field(name="\U0001F3EE 〉 Information complémentaire", value="-La commande peut avoir un argument qui doit être un chiffre/nombre qui correspond au numéro du film.\n -Il y a actuellement {} films dans la liste.\n -Référence des films: https://imgur.com/gallery/LaVjhjx".format(len_film), inline= False)
             embed.add_field(name="\U0001F3EE 〉 Exemple", value="```py!film --> Renvoie un film aléatoirement \npy!film 1 --> Renvoie le premier film de la liste```", inline= False)
             await ctx.send(embed=embed)
+        elif input[0] == 'quote' or input[0] == 'citation':
+            embed.add_field(name="\U0001F3EE 〉 py!quote / py!citation",value ="Renvoie une citation en anglais de manière aléatoire", inline=False)
+            embed.add_field(name="\U0001F3EE 〉 Information complémentaire", value="-Toute les citations ce génère aléatoirement ici: https://api.quotable.io/random")
+            await ctx.send(embed=embed)
+        elif input[0] == 'cointoss' or input[0] == 'ct':
+            embed.add_field(name="\U0001F3EE 〉 py!cointoss / py!ct",value ="Renvoie pile ou face", inline=False)
+            await ctx.send(embed=embed)
         else:
             error = discord.Embed(
                 title = "{}  La commande '{}' n'existe pas".format("\U000026D4",input[0]),

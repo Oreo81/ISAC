@@ -35,14 +35,13 @@ class Com(commands.Cog):
     async def fly(self,ctx):
         await ctx.send(ctx.author.mention ,file=discord.File("./media/img/rei.jpg"))
 
-    @commands.command(name="quote")
+    @commands.command(name="quote",aliases=['citation'])
     @commands.guild_only()
     async def quote(self,ctx):
         url = 'https://api.quotable.io/random'
         r = requests.get(url)
         quote = r.json()
         await ctx.send("> **'**{}**'** \n > ─ **{}**".format(quote['content'],quote['author']))
-        print()
 
     @commands.command(name="cointoss",aliases=['ct'])
     async def ct(self,ctx):
