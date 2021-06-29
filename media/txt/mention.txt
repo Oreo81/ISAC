@@ -1,0 +1,5 @@
+['Oui',
+'Non',
+'tg',
+'tu veux quoi ?',
+'tu me fait chier']
