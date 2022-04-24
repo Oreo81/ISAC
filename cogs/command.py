@@ -3,13 +3,24 @@ import random
 from datetime import *
 from time import *
 from discord.ext import commands
+from discord.ext.commands.core import command
 import requests
+import praw
+import feedparser
 
 with open ("./media/txt/movie_list.txt") as movie:
     film = eval(movie.read())
     len_film = len(film)-1
 
-no_pm = bool
+with open ("./media/txt/reddit.txt") as reddit:
+    red = eval(reddit.read())
+
+reddit = praw.Reddit(client_id = red[0],
+                    client_secret = red[1],
+                    username = red[2],
+                    password = red[3],
+                    user_agent = red[4],
+                    check_for_async=False)
 
 class Com(commands.Cog):
     def __init__(self, bot):
@@ -23,9 +34,25 @@ class Com(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def ping(self,ctx):
-        await ctx.send('Pong with command')
+        await ctx.send("pong")
 
-    @commands.command(name="heure")
+    @commands.command()
+    async def testt(self,ctx):
+        await ctx.send(ctx.message.content)
+        await ctx.message.delete()
+
+    @commands.command()
+    @commands.guild_only()
+    async def game(self,ctx):
+        news_feed = feedparser.parse('https://isthereanydeal.com/rss/specials/eu1')
+        print("Feed Title:", news_feed.feed.title) 
+
+        titre = news_feed.entries[0].title
+        lien = news_feed.entries[0].description
+
+        await ctx.send("{}{}".format(titre,lien))
+
+    @commands.command(name="heure",aliases=['hour'])
     @commands.guild_only()
     async def hour(self,ctx):
         await ctx.send("{}\n> {} Il est {}".format(ctx.author.mention,"\U0001F552",datetime.now().strftime('%Hh%M')))
@@ -44,10 +71,28 @@ class Com(commands.Cog):
         await ctx.send("> **'**{}**'** \n > ─ **{}**".format(quote['content'],quote['author']))
 
     @commands.command(name="cointoss",aliases=['ct'])
+    @commands.guild_only()
     async def ct(self,ctx):
         list=[['Pile','<:pile:859170464043761675>'],['Face','<:face:859170464378126336>']]
         choix = random.choice(list)
         await ctx.send("> {} {} {}".format(ctx.author.mention,choix[0],choix[1]))
+
+    @commands.command(name="meme")
+    @commands.guild_only()
+    async def ct(self,ctx):
+        message = await ctx.send("> \U000026A0 {} Cela peut prendre du temps !".format(ctx.author.mention))
+        all_subs = []
+        subreddit = reddit.subreddit("memes")
+        top = subreddit.top(limit = 50)
+
+        for submission in top:
+            all_subs.append(submission)
+        
+        random_sub = random.choice(all_subs)
+        em = discord.Embed(title = random_sub.title , colour= discord.Colour.dark_green())
+        em.set_image(url= random_sub.url)
+        await ctx.send(embed=em)
+        await message.delete()
 
 #================================================================================
     @commands.command(name="insult")
@@ -72,22 +117,14 @@ class Com(commands.Cog):
                         if str(reaction.emoji) == "\U0001F44D":
                             add_list(id)
                             mess_fin = "Tu es maintenant sur la liste !"
-                            await message.delte(message)
-
                         elif str(reaction.emoji) == "🚫":
                             mess_fin = "Aucune action n'a été fait !"
-                            await message.delte(message)
-                    
                     elif is_in_list(id) == True:
                         if str(reaction.emoji) == "\U0001F44D":
                             remove_list(id)
                             mess_fin = "Tu n'es plus sur la liste !"
-                            await message.delte(message)
-
                         elif str(reaction.emoji) == "🚫":
                             mess_fin = "Aucune action n'a été fait !"
-                            await message.delte(message)
-
                     else:
                         await message.edit(content="bug")
                         await message.remove_reaction(reaction, user)

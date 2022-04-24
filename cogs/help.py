@@ -21,8 +21,8 @@ class help(commands.Cog):
         embed.set_author(name="{} - Help menu".format(ctx.author.name),icon_url=ctx.author.avatar_url)
         if not input:
             embed.add_field(name="\U00002699〉 Commande disponible", value="Pour plus d'information par rapport a une commande, utiliser `py!h [commande]` ", inline= False)
-            embed.add_field(name="\U0001F506 〉 Fun", value="`ping`,`film`", inline= True)
-            embed.add_field(name="\U0001F506 〉 Outils", value="`insult`,`heure`", inline= True)
+            embed.add_field(name="\U0001F506 〉 Fun", value="`insult`,`film`,`meme`,`battleship`", inline= True)
+            embed.add_field(name="\U0001F506 〉 Outils", value="`ping`,`heure`", inline= True)
             embed.add_field(name="\U0001F506 〉 Aléatoire", value="`quote`,`cointoss`", inline= False)
             await ctx.send(embed=embed)
         elif input[0] == 'film' or input[0] == 'f' or input[0] == 'movie':
@@ -36,6 +36,12 @@ class help(commands.Cog):
             await ctx.send(embed=embed)
         elif input[0] == 'cointoss' or input[0] == 'ct':
             embed.add_field(name="\U0001F3EE 〉 py!cointoss / py!ct",value ="Renvoie pile ou face", inline=False)
+            await ctx.send(embed=embed)
+        elif input[0] == 'meme':
+            embed.add_field(name="\U0001F3EE 〉 py!reddit",value ="-Renvoie un meme aléatoire parmis les 50 dernier post du subreddit utilisé \n -Subreddit utilisé: http://reddit.com/r/memes", inline=False)
+            await ctx.send(embed=embed)
+        elif input[0] == 'battleship' or input[0] == 'bs':
+            embed.add_field(name="\U0001F3EE 〉 py!battleship",value ="-Jeux classique du battleship \n -TT", inline=False)
             await ctx.send(embed=embed)
         else:
             error = discord.Embed(
