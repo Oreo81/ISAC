@@ -20,12 +20,12 @@ class Eve(commands.Cog):
         if mention in message.content:
             await message.channel.send(repo)
 
-    @commands.Cog.listener()
-    async def on_command_error(self,ctx, error):
-        if isinstance(error, commands.NoPrivateMessage):
-            await ctx.send("> {} Cette commande ne marche pas en message privé !".format("\U000026D4"))
-        else:
-            await ctx.send(error)
+    # @commands.Cog.listener()
+    # async def on_command_error(self,ctx, error):
+    #     if isinstance(error, commands.NoPrivateMessage):
+    #         await ctx.send("> {} Cette commande ne marche pas en message privé !".format("\U000026D4"))
+    #     else:
+    #         await ctx.send("> {}".format(error))
 
 def setup(bot):
     bot.add_cog(Eve(bot))

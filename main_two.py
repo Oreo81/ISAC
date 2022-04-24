@@ -2,6 +2,7 @@ import discord
 from datetime import *
 from time import *
 from discord.ext import commands
+from discord_slash import SlashCommand, SlashContext
 
 #For more information about this bot: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
@@ -18,6 +19,8 @@ bot.load_extension("cogs.command")
 bot.load_extension("cogs.event")
 
 bot.load_extension("cogs.help")
+
+bot.load_extension("cogs.battleship")
 
 #================================================================================
 @bot.event
